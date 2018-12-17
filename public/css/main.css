@@ -18,3 +18,9 @@ html {
 #searchButton {
   font-size: 1.5rem;
 }
+
+#ajaxError,
+#locationError {
+  color: red;
+  font-weight: bold;
+}

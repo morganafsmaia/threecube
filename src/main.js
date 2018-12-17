@@ -9,7 +9,7 @@ const foursquare = require("./foursquareAPIconfig.js");
 
 // setting hostname and port
 const hostname = "localhost";
-const port = 9090;
+const port = process.env.THREECUBE_PORT || 9090;
 
 // setting app with express
 const index = express();
@@ -18,7 +18,7 @@ const index = express();
 index.use(bodyParser.urlencoded({ extended: true }));
 
 // setting up static folder
-index.use(express.static("public"));
+index.use("/static", express.static("public"));
 
 index.set("views", "src/views");
 index.set("view engine", "ejs");
