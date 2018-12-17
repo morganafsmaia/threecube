@@ -12,13 +12,21 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
+    <!-- Loading fontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+      crossorigin="anonymous"
+    />
     <!-- loading jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   </head>
-  <body>
+
+  <body id="body">
     <!-- Image and text Navbar -->
     <div class="container">
-      <nav class="navbar navbar-light bg-white">
+      <nav class="navbar navbar-light navbar-trans">
         <a class="navbar-brand" href="/">
           <img
             src="../images/icons8-sugar-cubes-48.png"
@@ -31,81 +39,91 @@
         </a>
       </nav>
     </div>
-
-    <!-- Welcome and hello statement -->
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-0 col-lg-4"></div>
-        <div class="col-sm-12 col-lg-4">
-          <h1 class="display-5">Hello and welcome to ThreeCube!</h1>
-          <br />
-          <p class="h6">
-            To get recommendations, please tell me what you want. :)
-          </p>
-        </div>
-        <div class="col-sm-0 col-lg-4"></div>
-      </div>
-    </div>
-
-    <!-- User search -->
-    <div class="container mx-auto">
-      <div class="row">
-        <div class="col-sm-6 input-group-lg">
-            <form>
-          <input
-            type="text"
-            id="userQuery"
-            name="userQuery"
-            aria-label="Searching for"
-            class="form-control"
-            placeholder="Searching for..."
-          />
-        </div>
-        <div class="col-sm-6">
-         <a id="searchButton">
-            <img src="../images/icons8-search-48.png" alt="search icon" />
-          </a>
+    <section id="content">
+      <!-- Welcome and hello statement -->
+      <div class="container mb-3">
+        <div class="row">
+          <div class="col-sm-0 col-lg-2"></div>
+          <div class="col-sm-12 col-lg-8">
+            <h1 class="display-5">Hello and welcome to ThreeCube!</h1>
+            <br />
+            <p class="h6">
+              To get restaurant recommendations, please tell me what you want to
+              eat.
+            </p>
+          </div>
+          <div class="col-sm-0 col-lg-2"></div>
         </div>
       </div>
-    </div>
 
-    <div class="container mx-auto">
-      <p style="display:none" class="display-4" id="ajaxError">
-        Oops, something went wrong, please try again
-      </p>
-      <p style="display:none" class="display-4" id="locationError">
-        Sorry, we can't see where you are.
-      </p>
-    </div>
+      <!-- User search -->
+      <div class="container mx-auto">
+        <form id="searchForm">
+          <div class="row">
+            <div class="col-sm-0 col-lg-2"></div>
 
-    <script type="text/javascript">
-      var location, userQuery;
-      document.addEventListener("DOMContentLoaded", function(event) {
-            if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                userLocation = `${position.coords.latitude.toFixed(2)},${position.coords.longitude.toFixed(2)}`;
-           
+            <div class="col-sm-12 col-lg-8 input-group input-group-lg">
+              <input
+                type="text"
+                id="userQuery"
+                name="userQuery"
+                aria-label="Searching for"
+                class="form-control"
+                placeholder="Searching for..."
+              />
+              <div class="input-group-append">
+                <button type="submit" class="btn" id="searchButton">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
 
-                $("#searchButton").on("click", () => {
-                 userQuery = $("#userQuery").val();
-                $.post(
-                  "/",
-                  { userLocation: userLocation, userQuery: userQuery },
-                  (response, err) => {
-                      if (err) {
-                      $("#locationError").attr("style", "");
-                     }
-                 })
-                });
-          })
-        } else {
-          $("#locationError").attr("style", "");
-        }
-      });
-    </script>
+            <div class="col-sm-0 col-lg-2"></div>
+          </div>
+        </form>
+      </div>
+      <!-- Error container -->
+      <div class="container mx-auto">
+        <p style="display:none" class="display-4" id="ajaxError">
+          Oops, something went wrong, please try again
+        </p>
+        <p style="display:none" class="display-4" id="locationError">
+          Sorry, we can't see where you are.
+        </p>
+      </div>
+
+      <section id="resultsAPI"></section>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="main-footer" class="bg-trans">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center py-2">
+            <p>Created by</p>
+            <a href="https://morfsm.com" target="_blank">
+              <img src="../images/morfsm_logo.png" width="100" height="30" />
+            </a>
+            <p>
+              This page and app were created as part of an exercise, and does
+              not have any commercial purpose
+            </p>
+            <p>
+              And
+              <a href="https://github.com/morganafsmaia/threecube"
+                >click here</a
+              >
+              to contribute in github.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JS for front end -->
+    <script src="../js/frontEnd.js"></script>
 
     <!-- Bootstrap JavaScript -->
-
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
       integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"

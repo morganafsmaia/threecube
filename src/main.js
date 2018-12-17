@@ -5,6 +5,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const ejs = require("ejs");
+const foursquare = require("./foursquareAPIconfig.js");
 
 // setting hostname and port
 const hostname = "localhost";
@@ -22,8 +23,6 @@ index.use(express.static("public"));
 index.set("views", "src/views");
 index.set("view engine", "ejs");
 
-//"52.36,4.9"
-
 // ------------------------------ROUTING------------------------------------
 
 // main GET route
@@ -32,21 +31,20 @@ index.get("/", (request, response) => {
   response.render("main");
 });
 
-//main POST route
-index.post("/", (req, response) => {
-  var userQuery = req.body.userQuery;
-  var userLocation = req.body.userLocation;
-  var userAddress;
+//Search GET route
+index.get("/search", (req, response) => {
+  var userQuery = req.query.userQuery;
+  var userLocation = req.query.userLocation;
+
+  //making API call using the request package
   request(
     {
       url: "https://api.foursquare.com/v2/venues/explore",
       method: "GET",
       qs: {
-        //--------------REMOVE THE ID AND SECRET FROM GITHUB VERSION----------------
-        client_id: "",
-        client_secret: "",
+        client_id: foursquare.client_id,
+        client_secret: foursquare.client_secret,
         ll: userLocation,
-        near: userAddress,
         query: userQuery,
         v: "20180323",
         limit: 30
@@ -55,7 +53,6 @@ index.post("/", (req, response) => {
     function(err, res, body) {
       if (err) {
         console.error(err);
-        apiError = err;
       } else {
         //parsing JSON body from the API
         var data = JSON.parse(body);
@@ -63,19 +60,21 @@ index.post("/", (req, response) => {
         var totalResults = data.response.totalResults;
         var suggestedRadius = data.response.suggestedRadius;
         //getting venue information
-        var reasonsArray = data.response.groups[0].items;
-        //console.log(reasonsArray);
-        let venues;
-        for (let index = 0; index < reasonsArray.length; index++) {
-          venues = {
-            name: reasonsArray[index].venue.name,
-            address: reasonsArray[index].venue.location.formattedAddress.join(),
+        var itemsArray = data.response.groups[0].items;
+        //console.log(itemsArray);
+        //getting all the venues results into an array
+        let venues = [];
+        for (let index = 0; index < itemsArray.length; index++) {
+          venues.push({
+            name: itemsArray[index].venue.name,
+            address: itemsArray[index].venue.location.formattedAddress.join(),
             distance: (
-              reasonsArray[index].venue.location.distance / 1000
+              itemsArray[index].venue.location.distance / 1000
             ).toFixed(2),
-            category: reasonsArray[index].venue.categories[0].name
-          };
+            category: itemsArray[index].venue.categories[0].name
+          });
         }
+        //rendering the results in the results page
         response.render("results", {
           totalResults: totalResults,
           suggestedRadius: suggestedRadius,

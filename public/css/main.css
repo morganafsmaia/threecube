@@ -1,3 +1,20 @@
-body {
-  background: purple;
+html {
+  padding: 0;
+  margin: 0;
+}
+
+#body {
+  background: url(../images/lauren-mancke-63448-unsplash.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#content {
+  min-height: 65vh;
+}
+
+#searchButton {
+  font-size: 1.5rem;
 }

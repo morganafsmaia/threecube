@@ -1,70 +1,18 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>ThreeCube</title>
-    <!-- integrating CSS -->
-    <link rel="stylesheet" type="text/css" href="../css/main.css" />
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous"
-    />
-    <!-- loading jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  </head>
-  <body>
-    <!-- Image and text Navbar -->
-    <div class="container">
-      <nav class="navbar navbar-light bg-white">
-        <a class="navbar-brand" href="#">
-          <img
-            src="../images/icons8-sugar-cubes-48.png"
-            width="30"
-            height="30"
-            class="d-inline-block align-top"
-            alt="ThreeCube logo"
-          />
-          ThreeCube
-        </a>
-      </nav>
-    </div>
+<!-- results from API -->
+<div class="container"><p class="h6">Results: <%= totalResults%></p></div>
 
-    <!-- results from API -->
-    <div class="container"><p class="h6">Results: <%= totalResults%></p></div>
-
-    <!-- Venues results -->
-    <div class="container">
-      <div class="card-deck">
-        <% venues.forEach(function(venue){ %>
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><%= venue.name %></h5>
-            <p class="card-text">Distance: <%= venue.distance %> km</p>
-            <p class="card-text">Address: <%= venue.address %></p>
-            <p class="card-text">Category: <%= venue.category %></p>
-          </div>
-        </div>
-        <% }) %>
+<!-- Venues results -->
+<div class="container">
+  <div class="card-columns">
+    <% venues.forEach(function(venue){ %>
+    <div class="card border-dark">
+      <div class="card-body text-dark">
+        <h5 class="card-title"><%= venue.name %></h5>
+        <p class="card-text">Distance: <%= venue.distance %> km</p>
+        <p class="card-text">Address: <%= venue.address %></p>
+        <p class="card-text">Category: <%= venue.category %></p>
       </div>
     </div>
-    <% } %>
-
-    <script type="text/javascript"></script>
-
-    <!-- Bootstrap JavaScript -->
-
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
+    <% }) %>
+  </div>
+</div>
